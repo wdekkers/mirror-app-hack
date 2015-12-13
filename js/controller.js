@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    function MirrorCtrl(AnnyangService, $scope, $timeout) {
+    function MirrorCtrl(AnnyangService, $scope, $timeout, Pi) {
         var _this = this;
         var DEFAULT_COMMAND_TEXT = 'Say "What can I say?" to see a list of commands...';
         $scope.listening = false;
@@ -30,6 +30,8 @@
                 console.debug("Ok, going to default view...");
                 $scope.focus = "default";
             }
+
+            
 
             // List commands
             AnnyangService.addCommand('What can I say', function() {
