@@ -64,6 +64,62 @@
                  _this.clearResults();
             });
 
+            AnnyangService.addCommand('turn off pink lights', function(task) {
+                 _this.clearResults();
+                 $.ajax({
+                  method: "POST",
+                  url: "http://tree.local/api/pin/value",
+                  data: JSON.stringify({ pin: "8", value: "1" }),
+                  dataType: "JSON"
+                })
+                  .done(function( msg ) {
+                    console.log('this'); 
+                  });
+            });
+
+            AnnyangService.addCommand('turn on pink lights', function(task) {
+                 _this.clearResults();
+                 $.ajax({
+                  method: "POST",
+                  url: "http://tree.local/api/pin/value",
+                  data: JSON.stringify({ pin: "8", value: "0" }),
+                  dataType: "JSON"
+                })
+                  .done(function( msg ) {
+                    console.log('this'); 
+                  });
+            });
+
+            AnnyangService.addCommand('turn off multi color lights', function(task) {
+                 _this.clearResults();
+                 $.ajax({
+                  method: "POST",
+                  url: "http://tree.local/api/pin/value",
+                  data: JSON.stringify({ pin: "9", value: "1" }),
+                  dataType: "JSON"
+                })
+                  .done(function( msg ) {
+                    console.log('this'); 
+                  });
+            });
+
+            AnnyangService.addCommand('turn on multi color lights', function(task) {
+                 _this.clearResults();
+                 $.ajax({
+                  method: "POST",
+                  url: "http://tree.local/api/pin/value",
+                  data: JSON.stringify({ pin: "9", value: "0" }),
+                  dataType: "JSON"
+                })
+                  .done(function( msg ) {
+                    console.log('color lights on'); 
+                  });
+            });
+
+            
+
+
+
             // Turn lights off
             AnnyangService.addCommand('(turn) (the) :state (the) light(s) *action', function(state, action) {
                 HueService.performUpdate(state + " " + action);
