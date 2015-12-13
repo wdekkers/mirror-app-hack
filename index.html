@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body ng-controller="MirrorCtrl as commands">
+    <div class="screen"></div>
+    <div class="toplayer">
     <div class="top">
       <div class="top-left">
         <div class="date grey">{{date | date : 'EEEE, MMMM d yyyy'}}</div>
@@ -45,7 +47,7 @@
     </div>
     <div class="container">
       <div class="middle-center">
-        <h1>{{complement}}</h1>
+        <h2>{{complement}}</h2>
         <h3 ng-show="!(user.name === undefined)">{{user.name}}</h3>
         <!-- <div class="listening" ng-show="listening">Ready: {{focus}}</div> -->
         <div class="map-container animate-grow" ng-show="focus == 'map'">
@@ -100,5 +102,6 @@
     </div>
     <!-- Sleep cover -->
     <div ng-show="focus == 'sleep'" class="sleep-cover fade"></div>
+    </div>
   </body>
 </html>
