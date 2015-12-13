@@ -1,12 +1,12 @@
 (function(angular) {
     'use strict';
 
-    function MirrorCtrl(AnnyangService, GeolocationService, WeatherService, MapService, HueService, $scope, $timeout) {
+    function MirrorCtrl(AnnyangService, $scope, $timeout) {
         var _this = this;
         var DEFAULT_COMMAND_TEXT = 'Say "What can I say?" to see a list of commands...';
         $scope.listening = false;
         $scope.debug = false;
-        $scope.complement = "Hi, sexy!"
+        $scope.complement = "Hi, ...."
         $scope.focus = "default";
         $scope.user = {};
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
@@ -25,28 +25,7 @@
         }
 
         _this.init = function() {
-            $scope.map = MapService.generateMap("Seattle,WA");
-            _this.clearResults();
-            tick();
-            restCommand();
-
-            //Get our location and then get the weather for our location
-            GeolocationService.getLocation().then(function(geoposition){
-                console.log("Geoposition", geoposition);
-                WeatherService.init(geoposition).then(function(){
-                    $scope.currentForcast = WeatherService.currentForcast();
-                    $scope.weeklyForcast = WeatherService.weeklyForcast();
-                    console.log("Current", $scope.currentForcast);
-                    console.log("Weekly", $scope.weeklyForcast);
-                    //refresh the weather every hour
-                    //this doesn't acutually updat the UI yet
-                    //$timeout(WeatherService.refreshWeather, 3600000);
-                });
-            })
-
-            //Initiate Hue communication
-            HueService.init();
-
+           
             var defaultView = function() {
                 console.debug("Ok, going to default view...");
                 $scope.focus = "default";
@@ -70,68 +49,6 @@
 
             // Go back to default view
             AnnyangService.addCommand('Wake up', defaultView);
-
-            // Hide everything and "sleep"
-            AnnyangService.addCommand('Show debug information', function() {
-                console.debug("Boop Boop. Showing debug info...");
-                $scope.debug = true;
-            });
-
-            // Hide everything and "sleep"
-            AnnyangService.addCommand('Show map', function() {
-                console.debug("Going on an adventure?");
-                $scope.focus = "map";
-            });
-
-            // Hide everything and "sleep"
-            AnnyangService.addCommand('Show (me a) map of *location', function(location) {
-                console.debug("Getting map of", location);
-                $scope.map = MapService.generateMap(location);
-                $scope.focus = "map";
-            });
-
-            // Zoom in map
-            AnnyangService.addCommand('(map) zoom in', function() {
-                console.debug("Zoooooooom!!!");
-                $scope.map = MapService.zoomIn();
-            });
-
-            AnnyangService.addCommand('(map) zoom out', function() {
-                console.debug("Moooooooooz!!!");
-                $scope.map = MapService.zoomOut();
-            });
-
-            AnnyangService.addCommand('(map) zoom (to) *value', function(value) {
-                console.debug("Moooop!!!", value);
-                $scope.map = MapService.zoomTo(value);
-            });
-
-            AnnyangService.addCommand('(map) reset zoom', function() {
-                console.debug("Zoooommmmmzzz00000!!!");
-                $scope.map = MapService.reset();
-                $scope.focus = "map";
-            });
-
-            // Search images
-            AnnyangService.addCommand('Show me *term', function(term) {
-                console.debug("Showing", term);
-            });
-
-            // Change name
-            AnnyangService.addCommand('My (name is)(name\'s) *name', function(name) {
-                console.debug("Hi", name, "nice to meet you");
-                $scope.user.name = name;
-            });
-
-            // Set a reminder
-            AnnyangService.addCommand('Remind me to *task', function(task) {
-                console.debug("I'll remind you to", task);
-            });
-
-            // Clear reminders
-            AnnyangService.addCommand('Clear reminders', function() {
-                console.debug("Clearing reminders");
-            });
 
             // Clear log of commands
             AnnyangService.addCommand('Clear results', function(task) {
